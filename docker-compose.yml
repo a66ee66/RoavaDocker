@@ -1,0 +1,58 @@
+version: "3.3"
+services:
+    otp:
+        build:
+            context: https://dd913b7d149b17aee33ce91a6087516cf76cc698:@github.com/roava/srv.verify.git#feature/sprint_9
+            dockerfile: "Dockerfile.local"
+        environment: 
+            - PULSAR_SERVICE_URL=pulsar://pulsar:6655
+            - MONGO_DB_CONNECTION=mongodb+srv://roava-testing:rMgdGIuyYOix0vV9@testing-bul98.gcp.mongodb.net/RoavaDemo?authSource=admin&replicaSet=testing-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+            - NODE_ENV=docker
+        volumes: 
+            - data-volume:/usr/app/files
+    messaging:
+        build:
+            context: https://dd913b7d149b17aee33ce91a6087516cf76cc698:@github.com/roava/srv.messaging.git#feature/sprint_9
+            dockerfile: "Dockerfile.local"
+        environment: 
+            - PULSAR_SERVICE_URL=pulsar://pulsar:6655
+            - MONGO_DB_CONNECTION=mongodb+srv://roava-testing:rMgdGIuyYOix0vV9@testing-bul98.gcp.mongodb.net/RoavaDemo?authSource=admin&replicaSet=testing-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+            - NODE_ENV=docker
+        volumes: 
+            - data-volume:/usr/app/files
+    onboarding:
+        build:
+            context: https://dd913b7d149b17aee33ce91a6087516cf76cc698:@github.com/roava/srv.onboarding.git#feature/sprint_9
+            dockerfile: "Dockerfile.local"
+        environment: 
+            - PULSAR_SERVICE_URL=pulsar://pulsar:6655
+            - MONGO_DB_CONNECTION=mongodb+srv://roava-testing:rMgdGIuyYOix0vV9@testing-bul98.gcp.mongodb.net/RoavaDemo?authSource=admin&replicaSet=testing-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+            - NODE_ENV=docker
+        volumes: 
+            - data-volume:/usr/app/files
+    auth:
+        build:
+            context: https://dd913b7d149b17aee33ce91a6087516cf76cc698:@github.com/roava/srv.auth.git#feature/sprint_9
+            dockerfile: "Dockerfile.local"
+        environment: 
+            - PULSAR_SERVICE_URL=pulsar://pulsar:6655
+            - MONGO_DB_CONNECTION=mongodb+srv://roava-testing:rMgdGIuyYOix0vV9@testing-bul98.gcp.mongodb.net/RoavaDemo?authSource=admin&replicaSet=testing-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+            - NODE_ENV=docker
+        volumes: 
+            - data-volume:/usr/app/files
+    graphql:
+        build:
+            context: https://dd913b7d149b17aee33ce91a6087516cf76cc698:@github.com/roava/srv.graphql.git#feature/sprint_9
+            dockerfile: "Dockerfile.local"
+        ports: 
+            - "80:3002"
+        environment: 
+            - MONGO_DB_CONNECTION=mongodb+srv://roava-testing:rMgdGIuyYOix0vV9@testing-bul98.gcp.mongodb.net/RoavaDemo?authSource=admin&replicaSet=testing-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
+            - ONBOARDING_URL=onboarding:5000
+            - AUTH_URL=auth:5001
+            - OTP_URL=otp:5003
+            - NODE_ENV=docker
+        volumes: 
+            - data-volume:/usr/app/files
+volumes:
+    data-volume:
